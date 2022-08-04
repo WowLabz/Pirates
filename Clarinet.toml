@@ -1,0 +1,50 @@
+[project]
+name = "pg_sma"
+authors = ["Priyanshu Mishra"]
+description = ""
+telemetry = true
+requirements = []
+cache_dir = "/mnt/d/Pirate_Game/pg_smart_contract/./.requirements"
+boot_contracts = ["pox", "costs-v2", "bns"]
+
+
+[contracts.sip010-ft-trait]
+path = "contracts/traits/sip010-ft-trait.clar"
+
+[contracts.sip009-nft-trait]
+path = "contracts/traits/sip009-nft-trait.clar"
+
+
+[contracts.token-trs]
+path = "contracts/tokens/token-trs.clar"
+depends_on = ["sip010-ft-trait"]
+
+[contracts.pirate-factory]
+path = "contracts/tokens/pirate-factory.clar"
+
+[contracts.pirate-nft]
+path= "contracts/tokens/pirate-nft.clar"
+depends_on = ["sip009-nft-trait","pirate-factory"]
+
+[contracts.ship-factory]
+path = "contracts/tokens/ship-factory.clar"
+
+[contracts.ship-nft]
+path= "contracts/tokens/pirate-nft.clar"
+depends_on = ["sip009-nft-trait","ship-factory"]
+
+[contracts.game]
+path= "contracts/tokens/game.clar"
+
+[repl]
+costs_version = 2
+parser_version = 2
+
+[repl.analysis]
+passes = ["check_checker"]
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
