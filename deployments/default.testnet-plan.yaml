@@ -1,0 +1,54 @@
+---
+id: 0
+name: Testnet deployment
+network: testnet
+node: "https://stacks-node-api.testnet.stacks.co"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: sip010-ft-trait
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/traits/sip010-ft-trait.clar
+            cost: 8480
+        - contract-publish:
+            contract-name: token-trs
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/token-trs.clar
+            cost: 44220
+        - contract-publish:
+            contract-name: sip009-nft-trait
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/traits/sip009-nft-trait.clar
+            cost: 5110
+        - contract-publish:
+            contract-name: random-number
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/random-number.clar
+            cost: 19500
+        - contract-publish:
+            contract-name: pirate-factory
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/pirate-factory.clar
+            cost: 119040
+        - contract-publish:
+            contract-name: pirate-nft
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/pirate-nft.clar
+            cost: 38170
+        - contract-publish:
+            contract-name: ship-factory
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/ship-factory.clar
+            cost: 123670
+        - contract-publish:
+            contract-name: ship-nft
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/ship-nft.clar
+            cost: 37290
+        - contract-publish:
+            contract-name: game
+            expected-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/game.clar
+            cost: 25460

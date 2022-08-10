@@ -7,7 +7,7 @@
 (define-map approved-contracts principal bool)
 
 ;; errors
-(define-constant ERR-NOT-AUTHORIZED (err u1000))
+(define-constant ERR-NOT-AUTHORIZED (err u401))
 
 (define-read-only (get-contract-owner)
   (ok (var-get contract-owner))

@@ -1,38 +1,38 @@
-(define-constant ERR-NOT-AUTHORIZED (err u1000))
+(define-constant ERR-NOT-AUTHORIZED (err u401))
 
 
 (define-data-var contract-owner principal tx-sender)
 
 ;; A map that creates a id => rle string relation.
 ;; hat 
-(define-map common-hat-trait uint (string-utf8 3))
+(define-map common-hat-trait uint (string-utf8 20))
 (define-data-var last-common-hat-id uint u0)
-(define-map rare-hat-trait uint (string-utf8 3))
+(define-map rare-hat-trait uint (string-utf8 20))
 (define-data-var last-rare-hat-id uint u0)
 ;; bottom
-(define-map common-bottom-trait uint (string-utf8 3))
+(define-map common-bottom-trait uint (string-utf8 20))
 (define-data-var last-common-bottom-id uint u0)
-(define-map rare-bottom-trait uint (string-utf8 3))
+(define-map rare-bottom-trait uint (string-utf8 20))
 (define-data-var last-rare-bottom-id uint u0)
 ;; face
-(define-map common-face-trait uint (string-utf8 3))
+(define-map common-face-trait uint (string-utf8 20))
 (define-data-var last-common-face-id uint u0)
-(define-map rare-face-trait uint (string-utf8 3))
+(define-map rare-face-trait uint (string-utf8 20))
 (define-data-var last-rare-face-id uint u0)
 ;; hand
-(define-map common-hand-trait uint (string-utf8 3))
+(define-map common-hand-trait uint (string-utf8 20))
 (define-data-var last-common-hand-id uint u0)
-(define-map rare-hand-trait uint (string-utf8 3))
+(define-map rare-hand-trait uint (string-utf8 20))
 (define-data-var last-rare-hand-id uint u0)
 ;; sword
-(define-map common-sword-trait uint (string-utf8 3))
+(define-map common-sword-trait uint (string-utf8 20))
 (define-data-var last-common-sword-id uint u0)
-(define-map rare-sword-trait uint (string-utf8 3))
+(define-map rare-sword-trait uint (string-utf8 20))
 (define-data-var last-rare-sword-id uint u0)
 ;; top
-(define-map common-top-trait uint (string-utf8 3))
+(define-map common-top-trait uint (string-utf8 20))
 (define-data-var last-common-top-id uint u0)
-(define-map rare-top-trait uint (string-utf8 3))
+(define-map rare-top-trait uint (string-utf8 20))
 (define-data-var last-rare-top-id uint u0)
 
 ;; function related to hat trait of pirate
@@ -41,23 +41,23 @@
     ;; for pirate bottom
     (if (is-eq trait-type "Bot")
         (map-get? common-bottom-trait id)
-        ;; for face bottom
+        ;; for pirate face 
         (if (is-eq trait-type "Fac")
             (map-get? common-face-trait id)
-            ;; for hand bottom
+            ;; for pirate hand
             (if (is-eq trait-type "Han")
                 (map-get? common-hand-trait id)
-                ;; for hat bottom
+                ;; for pirate hat
                 (if (is-eq trait-type "Hat")
                     (map-get? common-hat-trait id)
-                    ;; for top bottom
+                    ;; for pirate top
                     (if (is-eq trait-type "Top")
                         (map-get? common-top-trait id)
-                        ;; for sword bottom
+                        ;; for pirate sword
                         (if (is-eq trait-type "Swo")
                             (map-get? common-sword-trait id)
                             ;; solve this, have to return err saying no trait found with given trait type
-                            (map-get? common-sword-trait id)
+                            none
                         )
                     )
                 )
@@ -66,12 +66,12 @@
     )        
 )
 
-(define-public (add-common-trait (trait-rle (string-utf8 3)) (trait-type (string-ascii 3)))
+(define-public (add-common-trait (trait-rle (string-utf8 20)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for pirate bottom
         (if (is-eq trait-type "Bot")
-            (begin 
+            (begin  
                 (map-set common-bottom-trait (var-get last-common-bottom-id) trait-rle)
                 (var-set last-common-bottom-id (+ (var-get last-common-bottom-id) u1))
             )
@@ -138,7 +138,7 @@
                         (if (is-eq trait-type "Swo")
                             (map-get? rare-sword-trait id)
                             ;; solve this, have to return err saying no trait found with given trait type
-                            (map-get? rare-sword-trait id)
+                            none
                         )
                     )
                 )
@@ -147,7 +147,7 @@
     )        
 )
 
-(define-public (add-rare-trait (trait-rle (string-utf8 3)) (trait-type (string-ascii 3)))
+(define-public (add-rare-trait (trait-rle (string-utf8 20)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for pirate bottom
@@ -198,11 +198,106 @@
 	)
 )
 
+(define-private (get-random (max uint))
+    (unwrap-panic 
+        (contract-call? .random-number get-random max u48943)
+    )
+)
+;; minting random pirates
+(define-private (select-from-common (trait-type (string-ascii 3)))
+   ;; for bottom
+    (if (is-eq trait-type "Bot")
+            (get-random (var-get last-common-bottom-id))
+        ;; for face 
+        (if (is-eq trait-type "Fac")
+            (get-random (var-get last-common-face-id))
+            ;; for hand 
+            (if (is-eq trait-type "Han")
+                (get-random (var-get last-common-hand-id))
+                ;; for hat 
+                (if (is-eq trait-type "Hat")
+                    (get-random (var-get last-common-hat-id))
+                    ;; for Top
+                    (if (is-eq trait-type "Top")
+                        (get-random (var-get last-common-top-id))
+                        ;; for sword 
+                        (if (is-eq trait-type "Swo")
+                             (get-random (var-get last-common-sword-id))
+                            ;; solve this, have to return err saying no trait found with given trait type
+                            (get-random (var-get last-common-sword-id))
+                        )
+                    )
+                )
+            )
+        )
+    )  
+)
+
+(define-private (select-from-rare (trait-type (string-ascii 3)))
+   ;; for bottom
+    (if (is-eq trait-type "Bot")
+            (get-random (var-get last-rare-bottom-id))
+        ;; for face 
+        (if (is-eq trait-type "Fac")
+            (get-random (var-get last-rare-face-id))
+            ;; for hand 
+            (if (is-eq trait-type "Han")
+                (get-random (var-get last-rare-hand-id))
+                ;; for hat 
+                (if (is-eq trait-type "Hat")
+                    (get-random (var-get last-rare-hat-id))
+                    ;; for Top
+                    (if (is-eq trait-type "Top")
+                        (get-random (var-get last-rare-top-id))
+                        ;; for sword 
+                        (if (is-eq trait-type "Swo")
+                             (get-random (var-get last-rare-sword-id))
+                            ;; solve this, have to return err saying no trait found with given trait type
+                            (get-random (var-get last-rare-sword-id))
+                        )
+                    )
+                )
+            )
+        )
+    )  
+)
+
+(define-private (select-random-trait (trait-type (string-ascii 3))) 
+    (let
+        (
+            (chance-random (contract-call? .random-number get-random u89 u328)) 
+        )
+        ;; (if (> (+ chance-random (contract-call? .game get-user-buffer tx-sender) u90) 
+        (if (> u89 u90) 
+           
+            (begin
+                ;; if 1 then choose from rare else from common
+                (if (is-eq (unwrap-panic (contract-call? .random-number get-random u2 u328)) u1)
+                    (select-from-rare trait-type)
+                    (select-from-common trait-type)
+                )
+            )
+            ;; always common
+             (select-from-common trait-type)
+        )
+	)
+)
 
 ;; minting random pirates
 (define-public (get-random-traits)
-	(begin
-		;; random
-		(ok (list 0 0 0 0 0))
-	)
+    (ok {
+            traits: {  
+                Bottom : (select-random-trait "Bot"),
+                Face : (select-random-trait "Fac"),
+                Hand : (select-random-trait "Han"),
+                Hat : (select-random-trait "Hat"),
+                Top : (select-random-trait "Top"),
+                Sword : (select-random-trait "Swo")
+            },
+            is-rare: true,
+            fear-factor: u7
+        }
+    )
 )
+
+

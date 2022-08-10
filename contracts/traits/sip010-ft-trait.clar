@@ -1,14 +1,3 @@
-
-;; sip010-ft-trait
-;; <add a description here>
-
-(define-constant contract-owner tx-sender)
-(define-constant err-owner-only (err u100))
-(define-constant err-not-token-owner (err u101))
-
-;; No maximum supply!
-
-
 (define-trait sip010-ft-trait
   (
     ;; Transfer from the caller to a new principal
