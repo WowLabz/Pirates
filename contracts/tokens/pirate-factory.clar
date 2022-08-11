@@ -5,34 +5,34 @@
 
 ;; A map that creates a id => rle string relation.
 ;; hat 
-(define-map common-hat-trait uint (string-utf8 20))
+(define-map common-hat-trait uint (string-utf8 1000))
 (define-data-var last-common-hat-id uint u0)
-(define-map rare-hat-trait uint (string-utf8 20))
+(define-map rare-hat-trait uint (string-utf8 1000))
 (define-data-var last-rare-hat-id uint u0)
 ;; bottom
-(define-map common-bottom-trait uint (string-utf8 20))
+(define-map common-bottom-trait uint (string-utf8 1000))
 (define-data-var last-common-bottom-id uint u0)
-(define-map rare-bottom-trait uint (string-utf8 20))
+(define-map rare-bottom-trait uint (string-utf8 1000))
 (define-data-var last-rare-bottom-id uint u0)
 ;; face
-(define-map common-face-trait uint (string-utf8 20))
+(define-map common-face-trait uint (string-utf8 1000))
 (define-data-var last-common-face-id uint u0)
-(define-map rare-face-trait uint (string-utf8 20))
+(define-map rare-face-trait uint (string-utf8 1000))
 (define-data-var last-rare-face-id uint u0)
 ;; hand
-(define-map common-hand-trait uint (string-utf8 20))
+(define-map common-hand-trait uint (string-utf8 1000))
 (define-data-var last-common-hand-id uint u0)
-(define-map rare-hand-trait uint (string-utf8 20))
+(define-map rare-hand-trait uint (string-utf8 1000))
 (define-data-var last-rare-hand-id uint u0)
 ;; sword
-(define-map common-sword-trait uint (string-utf8 20))
+(define-map common-sword-trait uint (string-utf8 1000))
 (define-data-var last-common-sword-id uint u0)
-(define-map rare-sword-trait uint (string-utf8 20))
+(define-map rare-sword-trait uint (string-utf8 1000))
 (define-data-var last-rare-sword-id uint u0)
 ;; top
-(define-map common-top-trait uint (string-utf8 20))
+(define-map common-top-trait uint (string-utf8 1000))
 (define-data-var last-common-top-id uint u0)
-(define-map rare-top-trait uint (string-utf8 20))
+(define-map rare-top-trait uint (string-utf8 1000))
 (define-data-var last-rare-top-id uint u0)
 
 ;; function related to hat trait of pirate
@@ -66,7 +66,7 @@
     )        
 )
 
-(define-public (add-common-trait (trait-rle (string-utf8 20)) (trait-type (string-ascii 3)))
+(define-public (add-common-trait (trait-rle (string-utf8 1000)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for pirate bottom
@@ -147,7 +147,7 @@
     )        
 )
 
-(define-public (add-rare-trait (trait-rle (string-utf8 20)) (trait-type (string-ascii 3)))
+(define-public (add-rare-trait (trait-rle (string-utf8 1000)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for pirate bottom

@@ -5,7 +5,7 @@ network: simnet
 genesis:
   wallets:
     - name: deployer
-      address: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      address: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
       balance: "100000000000000"
     - name: wallet_1
       address: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
@@ -44,37 +44,37 @@ plan:
       transactions:
         - emulated-contract-publish:
             contract-name: sip010-ft-trait
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
             path: contracts/traits/sip010-ft-trait.clar
         - emulated-contract-publish:
             contract-name: token-trs
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
             path: contracts/tokens/token-trs.clar
         - emulated-contract-publish:
-            contract-name: random-number
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/tokens/random-number.clar
-        - emulated-contract-publish:
-            contract-name: ship-factory
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/tokens/ship-factory.clar
-        - emulated-contract-publish:
             contract-name: sip009-nft-trait
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
             path: contracts/traits/sip009-nft-trait.clar
         - emulated-contract-publish:
-            contract-name: ship-nft
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/tokens/ship-nft.clar
+            contract-name: random-number
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/random-number.clar
         - emulated-contract-publish:
             contract-name: pirate-factory
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
             path: contracts/tokens/pirate-factory.clar
         - emulated-contract-publish:
             contract-name: pirate-nft
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
             path: contracts/tokens/pirate-nft.clar
         - emulated-contract-publish:
+            contract-name: ship-factory
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/ship-factory.clar
+        - emulated-contract-publish:
+            contract-name: ship-nft
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
+            path: contracts/tokens/ship-nft.clar
+        - emulated-contract-publish:
             contract-name: game
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            emulated-sender: STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T
             path: contracts/game.clar
