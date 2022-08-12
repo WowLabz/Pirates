@@ -1,8 +1,8 @@
 FROM ubuntu:latest
 FROM gcc:latest
 
-RUN apt-get update && \
-    apt-get install -y curl
+RUN sudo apt-get update && \
+    sudo apt-get install -y curl
 
 WORKDIR /tmp
 
@@ -19,3 +19,8 @@ RUN sudo mv ./clarinet /usr/local/bin
 RUN rm -f yarn.tar.gz
 RUN clarinet check
 CMD ["clarinet","integrate"]
+
+# ./rustup.sh -y
+# ~/.cargo/bin/cargo install mdbook
+# cargo install clarity-repl
+# curl -L https://github.com/hirosystems/clarinet/releases/download/v0.33.0/clarinet-linux-x64-glibc.tar.gz > yarn.tar.gz
