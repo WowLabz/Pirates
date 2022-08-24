@@ -14,34 +14,34 @@
             })
 ;; A map that creates a id => rle string relation.
 ;; body 
-(define-map common-body-trait uint (string-utf8 1000))
+(define-map common-body-trait uint (string-utf8 260000))
 (define-data-var last-common-body-id uint u0)
-(define-map rare-body-trait uint (string-utf8 1000))
+(define-map rare-body-trait uint (string-utf8 260000))
 (define-data-var last-rare-body-id uint u0)
 ;; mast
-(define-map common-mast-trait uint (string-utf8 1000))
+(define-map common-mast-trait uint (string-utf8 260000))
 (define-data-var last-common-mast-id uint u0)
-(define-map rare-mast-trait uint (string-utf8 1000))
+(define-map rare-mast-trait uint (string-utf8 260000))
 (define-data-var last-rare-mast-id uint u0)
 ;; telescope
-(define-map common-telescope-trait uint (string-utf8 1000))
+(define-map common-telescope-trait uint (string-utf8 260000))
 (define-data-var last-common-telescope-id uint u0)
-(define-map rare-telescope-trait uint (string-utf8 1000))
+(define-map rare-telescope-trait uint (string-utf8 260000))
 (define-data-var last-rare-telescope-id uint u0)
 ;; sails
-(define-map common-sails-trait uint (string-utf8 1000))
+(define-map common-sails-trait uint (string-utf8 260000))
 (define-data-var last-common-sails-id uint u0)
-(define-map rare-sails-trait uint (string-utf8 1000))
+(define-map rare-sails-trait uint (string-utf8 260000))
 (define-data-var last-rare-sails-id uint u0)
 ;; anchor
-(define-map common-anchor-trait uint (string-utf8 1000))
+(define-map common-anchor-trait uint (string-utf8 260000))
 (define-data-var last-common-anchor-id uint u0)
-(define-map rare-anchor-trait uint (string-utf8 1000))
+(define-map rare-anchor-trait uint (string-utf8 260000))
 (define-data-var last-rare-anchor-id uint u0)
 ;; windows
-(define-map common-windows-trait uint (string-utf8 1000))
+(define-map common-windows-trait uint (string-utf8 260000))
 (define-data-var last-common-windows-id uint u0)
-(define-map rare-windows-trait uint (string-utf8 1000))
+(define-map rare-windows-trait uint (string-utf8 260000))
 (define-data-var last-rare-windows-id uint u0)
 
 ;; function related to body trait of ship
@@ -74,7 +74,7 @@
     )        
 )
 
-(define-public (add-common-trait (trait-rle (string-utf8 1000)) (trait-type (string-ascii 3)))
+(define-public (add-common-trait (trait-rle (string-utf8 260000)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for mast 
@@ -154,7 +154,7 @@
     )        
 )
 
-(define-public (add-rare-trait (trait-rle (string-utf8 1000)) (trait-type (string-ascii 3)))
+(define-public (add-rare-trait (trait-rle (string-utf8 260000)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for mast
@@ -207,7 +207,7 @@
 
 (define-private (get-random (max uint))
     (unwrap-panic 
-        (contract-call? .random-number get-random max u48941000)
+        (contract-call? .random-number get-random max u4894260000)
     )
 )
 
