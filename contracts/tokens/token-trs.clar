@@ -36,6 +36,17 @@
 	)
 )
 
+
+
+(define-public (transfer-claimed-trs (amount uint) (recipient principal))
+  (begin
+  
+    (asserts! (is-eq (default-to false (map-get? approved-contracts tx-sender)) true) ERR-NOT-AUTHORIZED)
+    (try! (ft-transfer? trs amount tx-sender recipient))
+    (ok true)
+  )
+)
+
 ;; ---------------------------------------------------------
 ;; SIP-10 Functions
 ;; ---------------------------------------------------------
@@ -175,4 +186,5 @@
   (burn (fixed-to-decimals amount) sender)
 )
 
-(map-set approved-contracts .faucet true)
+(map-set approved-contracts .pirate-factory true)
+(map-set approved-contracts .ship-factory true)

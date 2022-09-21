@@ -2,37 +2,38 @@
 
 
 (define-data-var contract-owner principal tx-sender)
-
+(define-data-var common-trait-value uint u2)
+(define-data-var rare-trait-value uint u3)
 ;; A map that creates a id => rle string relation.
 ;; hat 
-(define-map common-hat-trait uint (string-utf8 1000))
+(define-map common-hat-trait uint (string-utf8 20000))
 (define-data-var last-common-hat-id uint u0)
-(define-map rare-hat-trait uint (string-utf8 1000))
+(define-map rare-hat-trait uint (string-utf8 20000))
 (define-data-var last-rare-hat-id uint u0)
 ;; bottom
-(define-map common-bottom-trait uint (string-utf8 1000))
+(define-map common-bottom-trait uint (string-utf8 20000))
 (define-data-var last-common-bottom-id uint u0)
-(define-map rare-bottom-trait uint (string-utf8 1000))
+(define-map rare-bottom-trait uint (string-utf8 20000))
 (define-data-var last-rare-bottom-id uint u0)
 ;; face
-(define-map common-face-trait uint (string-utf8 1000))
+(define-map common-face-trait uint (string-utf8 20000))
 (define-data-var last-common-face-id uint u0)
-(define-map rare-face-trait uint (string-utf8 1000))
+(define-map rare-face-trait uint (string-utf8 20000))
 (define-data-var last-rare-face-id uint u0)
 ;; hand
-(define-map common-hand-trait uint (string-utf8 1000))
+(define-map common-hand-trait uint (string-utf8 20000))
 (define-data-var last-common-hand-id uint u0)
-(define-map rare-hand-trait uint (string-utf8 1000))
+(define-map rare-hand-trait uint (string-utf8 20000))
 (define-data-var last-rare-hand-id uint u0)
 ;; sword
-(define-map common-sword-trait uint (string-utf8 1000))
+(define-map common-sword-trait uint (string-utf8 20000))
 (define-data-var last-common-sword-id uint u0)
-(define-map rare-sword-trait uint (string-utf8 1000))
+(define-map rare-sword-trait uint (string-utf8 20000))
 (define-data-var last-rare-sword-id uint u0)
 ;; top
-(define-map common-top-trait uint (string-utf8 1000))
+(define-map common-top-trait uint (string-utf8 20000))
 (define-data-var last-common-top-id uint u0)
-(define-map rare-top-trait uint (string-utf8 1000))
+(define-map rare-top-trait uint (string-utf8 20000))
 (define-data-var last-rare-top-id uint u0)
 
 ;; function related to hat trait of pirate
@@ -66,7 +67,7 @@
     )        
 )
 
-(define-public (add-common-trait (trait-rle (string-utf8 1000)) (trait-type (string-ascii 3)))
+(define-public (add-common-trait (trait-rle (string-utf8 20000)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for pirate bottom
@@ -147,7 +148,7 @@
     )        
 )
 
-(define-public (add-rare-trait (trait-rle (string-utf8 1000)) (trait-type (string-ascii 3)))
+(define-public (add-rare-trait (trait-rle (string-utf8 20000)) (trait-type (string-ascii 3)))
     (begin
 		(asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
         ;; for pirate bottom
@@ -273,31 +274,55 @@
             (begin
                 ;; if 1 then choose from rare else from common
                 (if (is-eq (unwrap-panic (contract-call? .random-number get-random u2 u328)) u1)
-                    (select-from-rare trait-type)
-                    (select-from-common trait-type)
+                    (ok { is-rare : true , is-rare-val : (var-get rare-trait-value), trait-idx : (select-from-rare trait-type)})
+                    (ok { is-rare : false, is-rare-val : (var-get common-trait-value), trait-idx : (select-from-common trait-type)})
                 )
             )
             ;; always common
-             (select-from-common trait-type)
+            (ok { is-rare : false, is-rare-val : (var-get rare-trait-value), trait-idx : (select-from-rare trait-type)})
         )
 	)
 )
 
 ;; minting random pirates
 (define-public (get-random-traits)
-    (ok {
+    (let
+        (
+            (bottom-obj (unwrap-panic (select-random-trait "Bot"))) 
+            (face-obj (unwrap-panic (select-random-trait "Fac")))
+            (hand-obj (unwrap-panic (select-random-trait "Han"))) 
+            (hat-obj (unwrap-panic (select-random-trait "Win")))
+            (top-obj (unwrap-panic (select-random-trait "Anc"))) 
+            (sword-obj (unwrap-panic (select-random-trait "Sai")))
+            (is-rare-val (fold + (list (get is-rare-val bottom-obj) (get is-rare-val face-obj) (get is-rare-val hand-obj) (get is-rare-val hat-obj) (get is-rare-val top-obj) (get is-rare-val sword-obj)) u0))
+            (is-rare (if (>= is-rare-val u16) true false))
+        )
+        (ok {
             traits: {  
-                Bottom : (select-random-trait "Bot"),
-                Face : (select-random-trait "Fac"),
-                Hand : (select-random-trait "Han"),
-                Hat : (select-random-trait "Hat"),
-                Top : (select-random-trait "Top"),
-                Sword : (select-random-trait "Swo")
+                Bottom : { idx : (get trait-idx bottom-obj) , is-rare : (get is-rare bottom-obj)},
+                Face : { idx : (get trait-idx face-obj) , is-rare : (get is-rare face-obj)},
+                Hand : { idx : (get trait-idx hand-obj) , is-rare : (get is-rare hand-obj)},
+                Hat : { idx : (get trait-idx hat-obj) , is-rare : (get is-rare hat-obj)},
+                Top : { idx : (get trait-idx top-obj) , is-rare : (get is-rare top-obj)},
+                Sword : { idx : (get trait-idx sword-obj) , is-rare : (get is-rare sword-obj)}
             },
-            is-rare: true,
-            fear-factor: u7
-        }
+            is-rare: is-rare,
+            fear-factor: is-rare-val ;;TODO: should be resolved later
+         }
+        )
     )
 )
 
 
+(define-public (get-traits-rle (traits {  Bottom : { idx : uint, is-rare : bool}, Face : { idx : uint, is-rare : bool}, Hand : { idx : uint, is-rare : bool}, Hat : { idx : uint, is-rare : bool}, Top : { idx : uint, is-rare : bool}, Sword : { idx : uint, is-rare : bool} })) 
+    (ok
+        { 
+            Bottom : (if (get is-rare (get Bottom traits)) (map-get? rare-bottom-trait (get idx (get Bottom traits))) (map-get? common-bottom-trait (get idx (get Bottom traits)))),
+            Face : (if (get is-rare (get Face traits)) (map-get? rare-face-trait (get idx (get Face traits))) (map-get? common-face-trait (get idx (get Face traits)))),
+            Hand : (if (get is-rare (get Hand traits)) (map-get? rare-hand-trait (get idx (get Hand traits))) (map-get? common-hand-trait (get idx (get Hand traits)))),
+            Hat : (if (get is-rare (get Hat traits)) (map-get? rare-hat-trait (get idx (get Hat traits))) (map-get? common-hat-trait (get idx (get Hat traits)))),
+            Top : (if (get is-rare (get Top traits)) (map-get? rare-top-trait (get idx (get Top traits))) (map-get? common-top-trait (get idx (get Top traits)))),
+            Sword : (if (get is-rare (get Sword traits)) (map-get? rare-sword-trait (get idx (get Sword traits))) (map-get? common-sword-trait (get idx (get Sword traits))))
+        }
+    )
+)

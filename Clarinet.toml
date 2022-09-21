@@ -1,9 +1,8 @@
 [project]
-name = "fd"
+name = "Pirates"
 authors = ["Priyanshu Mishra"]
 description = ""
 requirements = []
-
 
 [contracts.game]
 path= "contracts/game.clar"
@@ -21,14 +20,6 @@ path = "contracts/tokens/random-number.clar"
 path = "contracts/tokens/token-trs.clar"
 depends_on = ["sip010-ft-trait"]
 
-[contracts.pirate-factory]
-path = "contracts/tokens/pirate-factory.clar"
-depends_on = ["random-number"]
-
-[contracts.pirate-nft]
-path= "contracts/tokens/pirate-nft.clar"
-depends_on = ["sip009-nft-trait","pirate-factory"]
-
 [contracts.ship-factory]
 path = "contracts/tokens/ship-factory.clar"
 depends_on = ["random-number","game"]
@@ -37,7 +28,13 @@ depends_on = ["random-number","game"]
 path= "contracts/tokens/ship-nft.clar"
 depends_on = ["sip009-nft-trait","ship-factory"]
 
+[contracts.pirate-factory]
+path = "contracts/tokens/pirate-factory.clar"
+depends_on = ["random-number"]
 
+[contracts.pirate-nft]
+path= "contracts/tokens/pirate-nft.clar"
+depends_on = ["sip009-nft-trait","pirate-factory","ship-nft","token-trs"]
 
 [repl]
 costs_version = 2
