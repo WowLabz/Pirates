@@ -268,9 +268,8 @@
         (
             (chance-random (contract-call? .random-number get-random u89 u328)) 
         )
-        ;; (if (> (+ chance-random (contract-call? .game get-user-buffer tx-sender) u90) 
+        ;;TODO: (if (> (+ chance-random (contract-call? .game get-user-buffer tx-sender) u90) 
         (if (> u89 u90) 
-           
             (begin
                 ;; if 1 then choose from rare else from common
                 (if (is-eq (unwrap-panic (contract-call? .random-number get-random u2 u328)) u1)
@@ -307,7 +306,7 @@
                 Sword : { idx : (get trait-idx sword-obj) , is-rare : (get is-rare sword-obj)}
             },
             is-rare: is-rare,
-            fear-factor: is-rare-val ;;TODO: should be resolved later
+            fear-factor: (+ u6 (mod is-rare-val u2)) ;; [6-8]
          }
         )
     )
@@ -317,12 +316,13 @@
 (define-public (get-traits-rle (traits {  Bottom : { idx : uint, is-rare : bool}, Face : { idx : uint, is-rare : bool}, Hand : { idx : uint, is-rare : bool}, Hat : { idx : uint, is-rare : bool}, Top : { idx : uint, is-rare : bool}, Sword : { idx : uint, is-rare : bool} })) 
     (ok
         { 
-            Bottom : (if (get is-rare (get Bottom traits)) (map-get? rare-bottom-trait (get idx (get Bottom traits))) (map-get? common-bottom-trait (get idx (get Bottom traits)))),
-            Face : (if (get is-rare (get Face traits)) (map-get? rare-face-trait (get idx (get Face traits))) (map-get? common-face-trait (get idx (get Face traits)))),
-            Hand : (if (get is-rare (get Hand traits)) (map-get? rare-hand-trait (get idx (get Hand traits))) (map-get? common-hand-trait (get idx (get Hand traits)))),
-            Hat : (if (get is-rare (get Hat traits)) (map-get? rare-hat-trait (get idx (get Hat traits))) (map-get? common-hat-trait (get idx (get Hat traits)))),
-            Top : (if (get is-rare (get Top traits)) (map-get? rare-top-trait (get idx (get Top traits))) (map-get? common-top-trait (get idx (get Top traits)))),
-            Sword : (if (get is-rare (get Sword traits)) (map-get? rare-sword-trait (get idx (get Sword traits))) (map-get? common-sword-trait (get idx (get Sword traits))))
+            Bottom : (unwrap-panic (if (get is-rare (get Bottom traits)) (map-get? rare-bottom-trait (get idx (get Bottom traits))) (map-get? common-bottom-trait (get idx (get Bottom traits))))),
+            Face : (unwrap-panic (if (get is-rare (get Face traits)) (map-get? rare-face-trait (get idx (get Face traits))) (map-get? common-face-trait (get idx (get Face traits))))),
+            Hand : (unwrap-panic (if (get is-rare (get Hand traits)) (map-get? rare-hand-trait (get idx (get Hand traits))) (map-get? common-hand-trait (get idx (get Hand traits))))),
+            Hat : (unwrap-panic (if (get is-rare (get Hat traits)) (map-get? rare-hat-trait (get idx (get Hat traits))) (map-get? common-hat-trait (get idx (get Hat traits))))),
+            Top : (unwrap-panic (if (get is-rare (get Top traits)) (map-get? rare-top-trait (get idx (get Top traits))) (map-get? common-top-trait (get idx (get Top traits))))),
+            Sword : (unwrap-panic (if (get is-rare (get Sword traits)) (map-get? rare-sword-trait (get idx (get Sword traits))) (map-get? common-sword-trait (get idx (get Sword traits)))))
         }
     )
 )
+

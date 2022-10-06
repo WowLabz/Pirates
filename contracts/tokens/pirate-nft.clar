@@ -13,6 +13,8 @@
 (define-constant ERR-NOT-PART-OF-LOOTING (err u108))
 (define-constant ERR-NOT-IN-TIME (err u109))
 (define-constant err-zero-eligible-pirates (err u110))
+(define-constant err-trs-add-failed (err u111))
+
 
 (define-non-fungible-token pirates uint) 
 (define-data-var min-stacked-time-needed uint u43200) ;; 12 hours
@@ -30,7 +32,8 @@
     Sword : { idx : uint, is-rare : bool}
 }, fear-factor: uint, is-rare: bool, is-stacked: bool, nft-rle: (string-utf8 20000), total-stacked-time: uint, stacked-at: uint, trs-token: uint, will-loot : bool })
 
-(define-map stack-unstack-interval uint (list 5000 {stacked-at: uint, unstacked-at: uint}))
+(define-map stacked-pirates uint principal)
+(define-data-var total-stacked-pirates uint u0)
 
 ;; functions
 (define-read-only (get-last-token-id)
@@ -91,6 +94,10 @@
         (asserts! (is-eq false (get is-stacked nft-detail)) err-already-stacked)
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { is-stacked : true, stacked-at : (unwrap-panic (get-block-info? time (- block-height u1)))  }))
+        
+        (map-insert stacked-pirates (var-get total-stacked-pirates) tx-sender)
+        (var-set total-stacked-pirates (+ (var-get total-stacked-pirates) u1))
+        
         (ok nft-detail)
     )
 )
@@ -104,8 +111,23 @@
         (asserts! (is-eq true (get is-stacked nft-detail)) err-not-already-stacked)
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { is-stacked : false, total-stacked-time : (+ (get total-stacked-time nft-detail) (- (unwrap-panic (get-block-info? time (- block-height u1))) (get stacked-at nft-detail))) }))
+        
+        (var-set total-stacked-pirates (- (var-get total-stacked-pirates) u1))
+        (map-set stacked-pirates token-id (default-to tx-sender (map-get? stacked-pirates (var-get total-stacked-pirates))))
+        (map-delete stacked-pirates (var-get total-stacked-pirates))
+        
+
+
         (ok nft-detail)
     )
+)
+
+(define-read-only (get-total-stacked-pirates) 
+    (var-get total-stacked-pirates)
+)
+
+(define-public (get-rd-total-stacked-pirates) 
+    (ok (map-get? stacked-pirates (unwrap-panic (contract-call? .random-number get-random (get-total-stacked-pirates) u697))))
 )
 
 (define-private (pirate-amount (token-id uint)) 
@@ -124,7 +146,6 @@
             (total-time (+ (get total-stacked-time nft-detail) (- curr-time (get stacked-at nft-detail))))
             (rel-time (- curr-time (var-get base-time)))
             (amount-will-get (unwrap-panic (pirate-amount token-id)))
-
         )
         (asserts! (is-eq tx-sender (unwrap-panic (nft-get-owner? pirates token-id))) ERR-NOT-TOKEN-OWNER)
         ;; in range [20 24]
@@ -132,7 +153,7 @@
         (asserts! (get will-loot nft-detail) ERR-NOT-PART-OF-LOOTING)
         (map-set nft-details token-id (merge nft-detail { will-loot : false , stacked-at : curr-time, trs-token : (+ (get trs-token nft-detail) amount-will-get) }))
         (asserts! (is-eq (unwrap-panic (contract-call? .token-trs transfer-claimed-trs amount-will-get tx-sender)) true) err-trs-transfer-failed)
-
+        (asserts! (is-eq (unwrap-panic (contract-call? .leaderboard add-trs-value amount-will-get tx-sender)) true) err-trs-add-failed)
         (ok true)
     )
 )

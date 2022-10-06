@@ -10,6 +10,7 @@
 (define-constant err-block-time-error (err u105))
 (define-constant err-trs-transfer-failed (err u106))
 (define-constant ERR-NOT-IN-TIME (err u109))
+(define-constant err-trs-add-failed (err u111))
 
 (define-non-fungible-token ships uint)
 
@@ -126,6 +127,7 @@
         (map-set nft-details token-id (merge nft-detail { total-stacked-time : u0, trs-token : amount, stacked-at : u0}))
         (set-pool-collection rel-time pirates-amount)
         (asserts! (is-eq (unwrap-panic (contract-call? .token-trs transfer-claimed-trs sender-amount tx-sender)) true) err-trs-transfer-failed)
+        (asserts! (is-eq (unwrap-panic (contract-call? .leaderboard add-trs-value sender-amount tx-sender)) true) err-trs-add-failed)
         (ok true)
     )
 )

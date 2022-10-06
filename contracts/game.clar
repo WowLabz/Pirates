@@ -13,6 +13,8 @@
 (define-data-var base-time uint u0) ;;(unwrap-panic (get-block-info? time (- block-height u1)))
 (define-data-var wowlabz principal 'STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6)
 
+
+
 (define-private (mint-nft)
     (let 
         (
@@ -31,6 +33,18 @@
     )
 )
 
+
+
+(define-private (tranfer-to-stacked-pirate (token-id uint)) 
+    (if (>= (unwrap-panic (contract-call? .random-number get-random u100 u97833)) u95) ;; 5% chance
+        (begin
+            (unwrap-panic (contract-call? .pirate-nft transfer token-id tx-sender (default-to tx-sender (unwrap-panic (contract-call? .pirate-nft get-rd-total-stacked-pirates )))))
+            (ok true)
+        )
+        (ok false)
+    )
+)
+
 (define-public (mint (recipient principal))
     (let 
         (
@@ -44,6 +58,7 @@
                 (asserts! (is-eq (unwrap-panic (stx-transfer? (var-get minting-stx-amount) tx-sender game-recipient)) true) err-minting-amount-transfer-failed) 
                 (var-set total-nft (+ (var-get total-nft) u1))
                 (map-set user-buffer tx-sender (+ (get-user-buffer tx-sender) u1))
+                (unwrap-panic (tranfer-to-stacked-pirate (- (unwrap-panic (contract-call? .pirate-nft get-last-token-id )) u1)))
                 (ok true)
             )
             ;; mint from trs
@@ -53,6 +68,7 @@
                 (asserts! (is-eq (unwrap-panic (contract-call? .token-trs transfer (var-get minting-trs-amount) tx-sender game-recipient none)) true) err-minting-amount-transfer-failed)
                 (var-set total-nft (+ (var-get total-nft) u1))
                 (map-set user-buffer tx-sender (+ (get-user-buffer tx-sender) u1))
+                (unwrap-panic (tranfer-to-stacked-pirate (- (unwrap-panic (contract-call? .pirate-nft get-last-token-id )) u1)))
                 (ok true)
             )
         )
@@ -85,3 +101,4 @@
         (ok true)
     )
 )
+

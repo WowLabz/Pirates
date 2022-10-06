@@ -305,7 +305,7 @@
                 sails : {idx : (get trait-idx sail-obj), is-rare : (get is-rare sail-obj)}
             },
             is-rare: is-rare,
-            tov: is-rare-val ;;TODO: should be resolved later
+            tov: (* (+ u4 (mod is-rare-val u15)) u3600);; [4-18] hours (in secs)
          }
         )
     )
