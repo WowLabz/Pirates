@@ -181,7 +181,7 @@
                                 (var-set last-rare-windows-id (+ (var-get last-rare-windows-id) u1))
                             )
                             ;; for anchor 
-                            (if (is-eq trait-type "Swo")
+                            (if (is-eq trait-type "Anc")
                                 (begin 
                                     (map-set rare-anchor-trait (var-get last-rare-anchor-id) trait-rle)
                                     (var-set last-rare-anchor-id (+ (var-get last-rare-anchor-id) u1))

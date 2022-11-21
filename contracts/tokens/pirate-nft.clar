@@ -14,6 +14,7 @@
 (define-constant ERR-NOT-IN-TIME (err u109))
 (define-constant err-zero-eligible-pirates (err u110))
 (define-constant err-trs-add-failed (err u111))
+(define-constant ERR-NOT-AUTHORIZED (err u401))
 
 
 (define-non-fungible-token pirates uint) 
@@ -65,15 +66,16 @@
             (fear-factor (get fear-factor nft-property))
             (is-rare (get is-rare nft-property))
         )        
+        (asserts! (is-eq .game tx-sender) ERR-NOT-AUTHORIZED) ;; only game contract can call it
         (var-set last-token-id (+ token-id u1))
-        (try! (nft-mint? pirates token-id tx-sender))
+        (try! (nft-mint? pirates token-id recipient))
         ;; will send request to external api and will get NFT RLE : future
         (map-insert nft-details token-id { fear-factor: fear-factor, is-rare: is-rare, is-stacked : false, nft-rle : u"", total-stacked-time : u0, stacked-at : u0, trs-token : u0, traits : traits, will-loot : false})
         (ok true)
     )
 )
 
-(define-public (combine-traits-to-one (token-id uint) (pirate-rle (string-utf8 1000)))
+(define-public (combine-traits-to-one (token-id uint) (pirate-rle (string-utf8 20000)))
      (let
         (
             (nft-detail (unwrap! (map-get? nft-details token-id) err-already-stacked))
@@ -98,7 +100,7 @@
         (map-insert stacked-pirates (var-get total-stacked-pirates) tx-sender)
         (var-set total-stacked-pirates (+ (var-get total-stacked-pirates) u1))
         
-        (ok nft-detail)
+        (ok true)
     )
 )
 
@@ -115,10 +117,7 @@
         (var-set total-stacked-pirates (- (var-get total-stacked-pirates) u1))
         (map-set stacked-pirates token-id (default-to tx-sender (map-get? stacked-pirates (var-get total-stacked-pirates))))
         (map-delete stacked-pirates (var-get total-stacked-pirates))
-        
-
-
-        (ok nft-detail)
+        (ok true)
     )
 )
 
@@ -152,7 +151,7 @@
         (asserts! (and (>= rel-time (+ u20 (* u24 (var-get day)))) (<= rel-time (+ u24 (* u24 (var-get day))))) ERR-NOT-IN-TIME)
         (asserts! (get will-loot nft-detail) ERR-NOT-PART-OF-LOOTING)
         (map-set nft-details token-id (merge nft-detail { will-loot : false , stacked-at : curr-time, trs-token : (+ (get trs-token nft-detail) amount-will-get) }))
-        (asserts! (is-eq (unwrap-panic (contract-call? .token-trs transfer-claimed-trs amount-will-get tx-sender)) true) err-trs-transfer-failed)
+        (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .token-trs transfer-claimed-trs amount-will-get tx-sender))) true) err-trs-transfer-failed)
         (asserts! (is-eq (unwrap-panic (contract-call? .leaderboard add-trs-value amount-will-get tx-sender)) true) err-trs-add-failed)
         (ok true)
     )

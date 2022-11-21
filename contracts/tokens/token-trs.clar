@@ -39,10 +39,12 @@
 
 
 (define-public (transfer-claimed-trs (amount uint) (recipient principal))
-  (begin
-  
-    (asserts! (is-eq (default-to false (map-get? approved-contracts tx-sender)) true) ERR-NOT-AUTHORIZED)
-    (try! (ft-transfer? trs amount tx-sender recipient))
+  (if (> amount u0)
+    (begin
+      (asserts! (is-eq (default-to false (map-get? approved-contracts tx-sender)) true) ERR-NOT-AUTHORIZED)
+      (try! (ft-mint? trs amount recipient))
+      (ok true)
+    )
     (ok true)
   )
 )
@@ -188,3 +190,5 @@
 
 (map-set approved-contracts .pirate-factory true)
 (map-set approved-contracts .ship-factory true)
+(map-set approved-contracts .pirate-nft true)
+(map-set approved-contracts .ship-nft true)

@@ -11,22 +11,22 @@
 (define-data-var minting-trs-amount uint u2000)
 (define-map user-buffer principal uint)
 (define-data-var base-time uint u0) ;;(unwrap-panic (get-block-info? time (- block-height u1)))
-(define-data-var wowlabz principal 'STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6)
+(define-data-var wowlabz principal 'STBM5M87T6K4FWRTQPDXAKSDXX9ZQQXHTYE8WW9T)
 
 
 
-(define-private (mint-nft)
+(define-private (mint-nft (recipient principal))
     (let 
         (
             (chance (unwrap-panic (contract-call? .random-number get-random u100 u243)))
         )
         (if (< chance u95)
             (begin
-                (asserts! (is-eq (unwrap-panic (contract-call? .ship-nft mint tx-sender)) true) err-minting-failed)
+                (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .ship-nft mint recipient))) true) err-minting-failed)
                 (ok true)                
             )
             (begin 
-                (asserts! (is-eq (unwrap-panic (contract-call? .pirate-nft mint tx-sender)) true) err-minting-failed)
+                (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .pirate-nft mint recipient))) true) err-minting-failed)
                 (ok true)  
             )
         )
@@ -36,7 +36,7 @@
 
 
 (define-private (tranfer-to-stacked-pirate (token-id uint)) 
-    (if (>= (unwrap-panic (contract-call? .random-number get-random u100 u97833)) u95) ;; 5% chance
+    (if (and (> (contract-call? .pirate-nft get-total-stacked-pirates) u0) (>= (unwrap-panic (contract-call? .random-number get-random u100 u97833)) u95)) ;; 5% chance
         (begin
             (unwrap-panic (contract-call? .pirate-nft transfer token-id tx-sender (default-to tx-sender (unwrap-panic (contract-call? .pirate-nft get-rd-total-stacked-pirates )))))
             (ok true)
@@ -54,7 +54,7 @@
             ;; mint from stx till stx-nft-count
             (begin 
                 (asserts! (<= (var-get minting-stx-amount) (stx-get-balance tx-sender)) err-insufficient-value)
-                (asserts! (is-eq (unwrap-panic (mint-nft)) true) (err u34))
+                (asserts! (is-eq (unwrap-panic (mint-nft recipient)) true) (err u34))
                 (asserts! (is-eq (unwrap-panic (stx-transfer? (var-get minting-stx-amount) tx-sender game-recipient)) true) err-minting-amount-transfer-failed) 
                 (var-set total-nft (+ (var-get total-nft) u1))
                 (map-set user-buffer tx-sender (+ (get-user-buffer tx-sender) u1))
@@ -64,7 +64,7 @@
             ;; mint from trs
             (begin 
                 (asserts! (<= (var-get minting-trs-amount) (unwrap-panic (contract-call? .token-trs get-balance tx-sender))) err-insufficient-value)
-                (asserts! (is-eq (unwrap-panic (mint-nft)) true) (err u34))
+                (asserts! (is-eq (unwrap-panic (mint-nft recipient)) true) (err u34))
                 (asserts! (is-eq (unwrap-panic (contract-call? .token-trs transfer (var-get minting-trs-amount) tx-sender game-recipient none)) true) err-minting-amount-transfer-failed)
                 (var-set total-nft (+ (var-get total-nft) u1))
                 (map-set user-buffer tx-sender (+ (get-user-buffer tx-sender) u1))

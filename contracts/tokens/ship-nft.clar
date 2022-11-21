@@ -11,6 +11,7 @@
 (define-constant err-trs-transfer-failed (err u106))
 (define-constant ERR-NOT-IN-TIME (err u109))
 (define-constant err-trs-add-failed (err u111))
+(define-constant ERR-NOT-AUTHORIZED (err u401))
 
 (define-non-fungible-token ships uint)
 
@@ -50,23 +51,23 @@
 (define-public (mint (recipient principal))
     (let
         (
+            
             (token-id (var-get last-token-id))
             (nft-property (unwrap-panic (contract-call? .ship-factory get-random-traits)))
             (traits (get traits nft-property))
             (is-rare (get is-rare nft-property))
             (tov (get tov nft-property))
-        )        
-
+        )    
+        (asserts! (is-eq .game tx-sender) ERR-NOT-AUTHORIZED) ;; only game contract can call it
         (var-set last-token-id (+ token-id u1))
-        (try! (nft-mint? ships token-id tx-sender))
+        (try! (nft-mint? ships token-id recipient))
         ;; will send request to external api and will get NFT RLE
         (map-insert nft-details token-id { traits : traits ,  is-rare : is-rare, tov : tov, is-stacked : false, nft-rle : u"",  total-stacked-time : u0, stacked-at : u0, trs-token : u0 })
-        
         (ok true)
     )
 )
 
-(define-public (combine-traits-to-one (token-id uint) (ship-rle (string-utf8 1000)))
+(define-public (combine-traits-to-one (token-id uint) (ship-rle (string-utf8 20000)))
      (let
         (
             (nft-detail (unwrap! (map-get? nft-details token-id) err-already-stacked))
@@ -87,7 +88,7 @@
         (asserts! (is-eq false (get is-stacked nft-detail)) err-already-stacked)
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { is-stacked : true, stacked-at : (unwrap-panic (get-block-info? time (- block-height u1))) }))
-        (ok nft-detail)
+        (ok true)
     )
 )
 
@@ -101,7 +102,7 @@
         (asserts! (is-eq true (get is-stacked nft-detail)) err-not-already-stacked)
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { is-stacked : false, total-stacked-time : (+ (get total-stacked-time nft-detail) (- (unwrap-panic (get-block-info? time (- block-height u1))) (get stacked-at nft-detail))) }))
-        (ok nft-detail)
+        (ok true)
     )
 )
 
@@ -126,7 +127,7 @@
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { total-stacked-time : u0, trs-token : amount, stacked-at : u0}))
         (set-pool-collection rel-time pirates-amount)
-        (asserts! (is-eq (unwrap-panic (contract-call? .token-trs transfer-claimed-trs sender-amount tx-sender)) true) err-trs-transfer-failed)
+        (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .token-trs transfer-claimed-trs sender-amount tx-sender))) true) err-trs-transfer-failed)
         (asserts! (is-eq (unwrap-panic (contract-call? .leaderboard add-trs-value sender-amount tx-sender)) true) err-trs-add-failed)
         (ok true)
     )
@@ -161,3 +162,4 @@
         (ok true)
     )
 )
+
