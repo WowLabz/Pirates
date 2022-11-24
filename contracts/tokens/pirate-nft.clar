@@ -131,9 +131,8 @@
 
 (define-private (pirate-amount (token-id uint)) 
     (begin 
-        ;;TODO: instead of u8 (unwrap-panic  (contract-call? .ship-nft get-total-trs-pool-collection))
         (asserts! (>= (var-get total-fear-factor) u1) err-zero-eligible-pirates)
-        (ok (/ (* (get fear-factor (unwrap! (map-get? nft-details token-id) ERR-NOT-FOUND)) u8) (var-get total-fear-factor)))
+        (ok (/ (* (get fear-factor (unwrap! (map-get? nft-details token-id) ERR-NOT-FOUND)) (unwrap-panic  (contract-call? .ship-nft get-total-trs-pool-collection))) (var-get total-fear-factor)))
     )
 )
 
@@ -152,7 +151,7 @@
         (asserts! (get will-loot nft-detail) ERR-NOT-PART-OF-LOOTING)
         (map-set nft-details token-id (merge nft-detail { will-loot : false , stacked-at : curr-time, trs-token : (+ (get trs-token nft-detail) amount-will-get) }))
         (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .token-trs transfer-claimed-trs amount-will-get tx-sender))) true) err-trs-transfer-failed)
-        (asserts! (is-eq (unwrap-panic (contract-call? .leaderboard add-trs-value amount-will-get tx-sender)) true) err-trs-add-failed)
+        (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .leaderboard add-trs-value amount-will-get tx-sender))) true) err-trs-add-failed)
         (ok true)
     )
 )
@@ -181,7 +180,7 @@
             (curr-time (unwrap-panic (get-block-info? time (- block-height u1))))
             (rel-time (- curr-time (var-get base-time)))
         )
-        ;; TODO: Only permitted contract
+        (asserts! (is-eq .game tx-sender) ERR-NOT-AUTHORIZED) ;; only game contract can call it
         (asserts! (>= rel-time (* u24 (var-get day))) ERR-NOT-IN-TIME)
         (var-set day (+ (var-get day) u1))
         (var-set total-fear-factor u0)

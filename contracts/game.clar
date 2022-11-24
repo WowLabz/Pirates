@@ -7,7 +7,7 @@
 
 (define-data-var total-nft uint u0)
 (define-data-var stx-nft-count uint u1000)
-(define-data-var minting-stx-amount uint u42)
+(define-data-var minting-stx-amount uint u42000) ;; 6decimal
 (define-data-var minting-trs-amount uint u2000)
 (define-map user-buffer principal uint)
 (define-data-var base-time uint u0) ;;(unwrap-panic (get-block-info? time (- block-height u1)))
@@ -96,6 +96,7 @@
 ;; INCREMENT DAY ONCE LOOTING IS COMPLETED AFTER LOOTING
 (define-public (inc-day) 
     (begin 
+        ;; only owner
         (unwrap-panic (contract-call? .pirate-nft inc-day))
         (unwrap-panic  (contract-call? .ship-nft inc-day))
         (ok true)

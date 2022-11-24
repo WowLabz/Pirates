@@ -22,6 +22,7 @@
 (define-data-var day uint u0)
 (define-data-var base-time uint u0) ;;(unwrap-panic (get-block-info? time (- block-height u1)))
 (define-data-var prev-pool-collection uint u0)
+(define-data-var total-stacked-ships uint u0)
 
 ;; mapping token-id => attribute
 (define-map nft-details uint { traits: {body: {idx : uint, is-rare: bool},mast: {idx : uint, is-rare: bool},telescope: {idx : uint, is-rare: bool},windows: {idx : uint, is-rare: bool},anchor: {idx : uint, is-rare: bool},sails: {idx : uint, is-rare: bool}}, is-rare: bool, tov: uint, is-stacked: bool, nft-rle: (string-utf8 20000), total-stacked-time: uint, stacked-at: uint , trs-token: uint })
@@ -47,7 +48,7 @@
         (nft-transfer? ships token-id sender recipient) 
     )
 )
-
+ 
 (define-public (mint (recipient principal))
     (let
         (
@@ -88,6 +89,7 @@
         (asserts! (is-eq false (get is-stacked nft-detail)) err-already-stacked)
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { is-stacked : true, stacked-at : (unwrap-panic (get-block-info? time (- block-height u1))) }))
+        (var-set total-stacked-ships (+ (var-get total-stacked-ships) u1))
         (ok true)
     )
 )
@@ -102,6 +104,7 @@
         (asserts! (is-eq true (get is-stacked nft-detail)) err-not-already-stacked)
         (asserts! (is-some (get-block-info? time (- block-height u1))) err-block-time-error)
         (map-set nft-details token-id (merge nft-detail { is-stacked : false, total-stacked-time : (+ (get total-stacked-time nft-detail) (- (unwrap-panic (get-block-info? time (- block-height u1))) (get stacked-at nft-detail))) }))
+        (var-set total-stacked-ships (- (var-get total-stacked-ships) u1))
         (ok true)
     )
 )
@@ -128,7 +131,7 @@
         (map-set nft-details token-id (merge nft-detail { total-stacked-time : u0, trs-token : amount, stacked-at : u0}))
         (set-pool-collection rel-time pirates-amount)
         (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .token-trs transfer-claimed-trs sender-amount tx-sender))) true) err-trs-transfer-failed)
-        (asserts! (is-eq (unwrap-panic (contract-call? .leaderboard add-trs-value sender-amount tx-sender)) true) err-trs-add-failed)
+        (asserts! (is-eq (unwrap-panic (as-contract (contract-call? .leaderboard add-trs-value sender-amount tx-sender))) true) err-trs-add-failed)
         (ok true)
     )
 )
@@ -138,6 +141,10 @@
         (ok (unwrap-panic (map-get? nft-details token-id)))
         ERR-NOT-FOUND
     )
+)
+
+(define-read-only (get-total-stacked-ships) 
+    (var-get total-stacked-ships)
 )
 
 (define-public (get-total-trs-pool-collection) 
@@ -154,7 +161,7 @@
             (curr-time (unwrap-panic (get-block-info? time (- block-height u1))))
             (rel-time (- curr-time (var-get base-time)))
         )
-        ;; TODO: Only permitted contract
+        (asserts! (is-eq .game tx-sender) ERR-NOT-AUTHORIZED) ;; only game contract can call it
         (asserts! (>= rel-time (* u24 (var-get day))) ERR-NOT-IN-TIME)
         (var-set day (+ (var-get day) u1))
         (var-set total-pool-collection (var-get prev-pool-collection))

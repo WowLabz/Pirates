@@ -5,10 +5,10 @@ network: simnet
 genesis:
   wallets:
     - name: deployer
-      address: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+      address: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
       balance: "100000000000000"
     - name: wallet_1
-      address: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+      address: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
       balance: "100000000000000"
     - name: wallet_2
       address: ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
@@ -41,41 +41,41 @@ plan:
       transactions:
         - emulated-contract-publish:
             contract-name: sip009-nft-trait
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/traits/sip009-nft-trait.clar
         - emulated-contract-publish:
-            contract-name: sip010-ft-trait
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
-            path: contracts/traits/sip010-ft-trait.clar
-        - emulated-contract-publish:
-            contract-name: token-trs
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
-            path: contracts/tokens/token-trs.clar
-        - emulated-contract-publish:
-            contract-name: leaderboard
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
-            path: contracts/leaderboard.clar
-        - emulated-contract-publish:
             contract-name: random-number
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/random-number.clar
         - emulated-contract-publish:
             contract-name: ship-factory
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/ship-factory.clar
         - emulated-contract-publish:
+            contract-name: leaderboard
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/leaderboard.clar
+        - emulated-contract-publish:
+            contract-name: sip010-ft-trait
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/traits/sip010-ft-trait.clar
+        - emulated-contract-publish:
+            contract-name: token-trs
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/token-trs.clar
+        - emulated-contract-publish:
             contract-name: ship-nft
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/ship-nft.clar
         - emulated-contract-publish:
             contract-name: pirate-factory
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/pirate-factory.clar
         - emulated-contract-publish:
             contract-name: pirate-nft
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/pirate-nft.clar
         - emulated-contract-publish:
             contract-name: game
-            emulated-sender: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/game.clar

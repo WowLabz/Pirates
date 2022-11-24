@@ -1,3 +1,4 @@
+(define-constant ERR-NOT-AUTHORIZED (err u401))
 (define-constant user-not-found (err u404))
 
 (define-map user-to-trs principal uint)
@@ -6,20 +7,20 @@
 
 
 (define-public (add-trs-value (val uint) (address principal)) 
-     ;;TODO: ONLY APPROVED CONTRACT CAN CALL THIS FUNCTION
-    (match (map-get? user-to-trs address)
+    (match (map-get? user-to-trs address) 
         prev-val (begin 
+            (asserts! (or (is-eq .pirate-nft tx-sender) (is-eq .ship-nft tx-sender)) ERR-NOT-AUTHORIZED) ;; only game contract can call it
             (map-set user-to-trs address (+ val prev-val)) 
             (ok true)
         )
         (begin
+            (asserts! (or (is-eq .pirate-nft tx-sender) (is-eq .ship-nft tx-sender)) ERR-NOT-AUTHORIZED) ;; only game contract can call it
             (map-set user-to-trs address val)
             (map-set id-user (var-get total-user) tx-sender)
             (var-set total-user (+ (var-get total-user) u1))
             (ok true)
         )
     )        
-    
 )
 
 (define-read-only (get-trs-value (address principal)) 

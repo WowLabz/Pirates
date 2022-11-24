@@ -8,52 +8,52 @@ plan:
     - id: 0
       transactions:
         - contract-publish:
-            contract-name: random-number
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
-            path: contracts/tokens/random-number.clar
-            cost: 19500
-        - contract-publish:
-            contract-name: pirate-factory
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
-            path: contracts/tokens/pirate-factory.clar
-            cost: 147300
-        - contract-publish:
-            contract-name: ship-factory
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
-            path: contracts/tokens/ship-factory.clar
-            cost: 146790
-        - contract-publish:
             contract-name: sip009-nft-trait
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
             path: contracts/traits/sip009-nft-trait.clar
             cost: 5110
         - contract-publish:
             contract-name: sip010-ft-trait
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
             path: contracts/traits/sip010-ft-trait.clar
             cost: 8480
         - contract-publish:
             contract-name: token-trs
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
             path: contracts/tokens/token-trs.clar
-            cost: 47510
+            cost: 48720
+        - contract-publish:
+            contract-name: random-number
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
+            path: contracts/tokens/random-number.clar
+            cost: 19500
+        - contract-publish:
+            contract-name: ship-factory
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
+            path: contracts/tokens/ship-factory.clar
+            cost: 146790
         - contract-publish:
             contract-name: leaderboard
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
             path: contracts/leaderboard.clar
-            cost: 11180
-        - contract-publish:
-            contract-name: pirate-nft
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
-            path: contracts/tokens/pirate-nft.clar
-            cost: 87980
+            cost: 12420
         - contract-publish:
             contract-name: ship-nft
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
             path: contracts/tokens/ship-nft.clar
-            cost: 69210
+            cost: 74160
+        - contract-publish:
+            contract-name: pirate-factory
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
+            path: contracts/tokens/pirate-factory.clar
+            cost: 147300
+        - contract-publish:
+            contract-name: pirate-nft
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
+            path: contracts/tokens/pirate-nft.clar
+            cost: 89690
         - contract-publish:
             contract-name: game
-            expected-sender: ST3HC415FER8TA4J76QNFB2KAGRMCC5B2K4D298SW
+            expected-sender: ST20TNEXBCHJB1B3S4EA160TK275M8R9WF2Q5SN8K
             path: contracts/game.clar
-            cost: 40540
+            cost: 41610
