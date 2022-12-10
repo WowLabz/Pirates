@@ -16,7 +16,7 @@
         (begin
             (asserts! (or (is-eq .pirate-nft tx-sender) (is-eq .ship-nft tx-sender)) ERR-NOT-AUTHORIZED) ;; only game contract can call it
             (map-set user-to-trs address val)
-            (map-set id-user (var-get total-user) tx-sender)
+            (map-set id-user (var-get total-user) address)
             (var-set total-user (+ (var-get total-user) u1))
             (ok true)
         )

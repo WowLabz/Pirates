@@ -40,21 +40,25 @@ plan:
     - id: 0
       transactions:
         - emulated-contract-publish:
-            contract-name: sip009-nft-trait
-            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
-            path: contracts/traits/sip009-nft-trait.clar
-        - emulated-contract-publish:
             contract-name: random-number
             emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/random-number.clar
         - emulated-contract-publish:
-            contract-name: ship-factory
-            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
-            path: contracts/tokens/ship-factory.clar
-        - emulated-contract-publish:
             contract-name: leaderboard
             emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/leaderboard.clar
+        - emulated-contract-publish:
+            contract-name: sip009-nft-trait
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/traits/sip009-nft-trait.clar
+        - emulated-contract-publish:
+            contract-name: pirate-factory
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/pirate-factory.clar
+        - emulated-contract-publish:
+            contract-name: ship-factory
+            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/ship-factory.clar
         - emulated-contract-publish:
             contract-name: sip010-ft-trait
             emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
@@ -67,10 +71,6 @@ plan:
             contract-name: ship-nft
             emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
             path: contracts/tokens/ship-nft.clar
-        - emulated-contract-publish:
-            contract-name: pirate-factory
-            emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
-            path: contracts/tokens/pirate-factory.clar
         - emulated-contract-publish:
             contract-name: pirate-nft
             emulated-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG

@@ -136,7 +136,7 @@
     )
 )
 
-(define-public (loot (token-id uint))
+(define-public (loot (token-id uint)) 
      (let
         (
             (nft-detail (unwrap! (map-get? nft-details token-id) ERR-NOT-FOUND))

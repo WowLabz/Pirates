@@ -277,7 +277,8 @@
                 )
             )
             ;; always common
-            (ok { is-rare : false , is-rare-val : (var-get common-trait-value), trait-idx : (select-from-common trait-type)})
+            (ok { is-rare : false , is-rare-val : (var-get common-trait-value), trait-idx : (select-from-common trait-type)})   
+
         )
 	)
 )
