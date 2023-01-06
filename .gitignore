@@ -2,3 +2,6 @@
 **/settings/Testnet.toml
 .requirements/
 history.txt
+/.cache
+/.vscode
+.debug_history
