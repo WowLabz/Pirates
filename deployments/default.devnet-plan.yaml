@@ -1,0 +1,59 @@
+---
+id: 0
+name: Devnet deployment
+network: devnet
+node: "http://localhost:20443"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: sip010-ft-trait
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/traits/sip010-ft-trait.clar
+            cost: 8480
+        - contract-publish:
+            contract-name: token-trs
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/token-trs.clar
+            cost: 47510
+        - contract-publish:
+            contract-name: random-number
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/random-number.clar
+            cost: 19500
+        - contract-publish:
+            contract-name: ship-factory
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/ship-factory.clar
+            cost: 146790
+        - contract-publish:
+            contract-name: pirate-factory
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/pirate-factory.clar
+            cost: 147300
+        - contract-publish:
+            contract-name: leaderboard
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/leaderboard.clar
+            cost: 11180
+        - contract-publish:
+            contract-name: sip009-nft-trait
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/traits/sip009-nft-trait.clar
+            cost: 5110
+        - contract-publish:
+            contract-name: ship-nft
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/ship-nft.clar
+            cost: 69210
+        - contract-publish:
+            contract-name: pirate-nft
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/tokens/pirate-nft.clar
+            cost: 87980
+        - contract-publish:
+            contract-name: game
+            expected-sender: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+            path: contracts/game.clar
+            cost: 40540

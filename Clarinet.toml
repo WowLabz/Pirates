@@ -1,0 +1,53 @@
+[project]
+name = "Pirates"
+authors = ["Priyanshu Mishra"]
+description = ""
+requirements = []
+
+[contracts.game]
+path= "contracts/game.clar"
+
+[contracts.leaderboard]
+path= "contracts/leaderboard.clar"
+
+[contracts.sip010-ft-trait]
+path = "contracts/traits/sip010-ft-trait.clar"
+
+[contracts.sip009-nft-trait]
+path = "contracts/traits/sip009-nft-trait.clar"
+
+[contracts.random-number]
+path = "contracts/tokens/random-number.clar"
+
+[contracts.token-trs]
+path = "contracts/tokens/token-trs.clar"
+depends_on = ["sip010-ft-trait"]
+
+[contracts.ship-factory]
+path = "contracts/tokens/ship-factory.clar"
+depends_on = ["random-number","game"]
+
+[contracts.ship-nft]
+path= "contracts/tokens/ship-nft.clar"
+depends_on = ["sip009-nft-trait","ship-factory","leaderboard"]
+
+[contracts.pirate-factory]
+path = "contracts/tokens/pirate-factory.clar"
+depends_on = ["random-number"]
+
+[contracts.pirate-nft]
+path= "contracts/tokens/pirate-nft.clar"
+depends_on = ["sip009-nft-trait","pirate-factory","ship-nft","token-trs","leaderboard"]
+
+[repl]
+costs_version = 2
+parser_version = 2
+
+[repl.analysis]
+passes = ["check_checker"]
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false

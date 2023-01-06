@@ -1,0 +1,16 @@
+{
+  "401": {
+    "code": "ERR-NOT-AUTHORIZED",
+    "comment": "Unauthorised access"
+  },
+  "100": {
+    "code": "ERR-OWNER-ONLY",
+    "comment": "only for owner"
+  },
+  "101": {
+    "code": "ERR-NOT-TOKEN-OWNER"
+  },
+  "404": {
+    "code": "ERR-NOT-FOUND"
+  }
+}
