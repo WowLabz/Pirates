@@ -6,8 +6,42 @@ authors = []
 telemetry = true
 cache_dir = "./.cache"
 
-# [contracts.counter]
-# path = "contracts/counter.clar"
+[contracts.game]
+path= "contracts/game.clar"
+depends_on = ["ship-nft","pirate-nft"]
+
+[contracts.leaderboard]
+path= "contracts/leaderboard.clar"
+
+[contracts.sip010-ft-trait]
+path = "contracts/traits/sip010-ft-trait.clar"
+
+[contracts.sip009-nft-trait]
+path = "contracts/traits/sip009-nft-trait.clar"
+
+[contracts.random-number]
+path = "contracts/utils/random-number.clar"
+
+[contracts.trs-token]
+path = "contracts/game_currency/trs-token.clar"
+depends_on = ["sip010-ft-trait"]
+
+[contracts.ships-factory]
+path = "contracts/factory/ships-factory.clar"
+depends_on = ["random-number","game"]
+
+[contracts.ship-nft]
+path= "contracts/character/ship-nft.clar"
+depends_on = ["sip009-nft-trait","ships-factory"]
+
+[contracts.pirates-factory]
+path = "contracts/factory/pirates-factory.clar"
+depends_on = ["random-number"]
+
+[contracts.pirate-nft]
+path= "contracts/character/pirate-nft.clar"
+depends_on = ["sip009-nft-trait","pirates-factory","ship-nft","token-trs"]
+
 
 [repl.analysis]
 passes = ["check_checker"]
