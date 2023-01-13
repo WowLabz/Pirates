@@ -1,5 +1,5 @@
 (define-constant ERR-NOT-AUTHORIZED (err u401))
-(define-constant user-not-found (err u404))
+(define-constant ERR-NOT-FOUND (err u404))
 
 (define-map user-to-trs principal uint)
 (define-map id-user uint principal)
@@ -33,7 +33,7 @@
 
 (define-read-only (get-trs-val-from-id (id uint))
     (begin 
-        (asserts! (< id (var-get total-user)) user-not-found)
+        (asserts! (< id (var-get total-user)) ERR-NOT-FOUND)
         (ok { address : (unwrap-panic (map-get? id-user id)), trs-token : (unwrap-panic (get-trs-value (default-to tx-sender (map-get? id-user id))))})
     )
 )

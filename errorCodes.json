@@ -1,4 +1,10 @@
 {
+  "1": {
+    "code": "ERR-MINTING-AMOUNT-TRANSFER-FAILED"
+  },
+  "2": {
+    "code": "ERR-INSUFFICIENT-VALUE"
+  },
   "100": {
     "code": "ERR-OWNER-ONLY",
     "comment": "only for owner"
@@ -6,15 +12,47 @@
   "101": {
     "code": "ERR-NOT-TOKEN-OWNER"
   },
+  "102": {
+    "code": "ERR-ALREADY-STACKED"
+  },
+  "103": {
+    "code": "ERR-NOT-STACKED"
+  },
+  "104": {
+    "code": "ERR-RLE-ALREADY-COMBINED"
+  },
+  "105": {
+    "code": "ERR-BLOCK-TIME-ERROR"
+  },
+  "106": {
+    "code": "ERR-TRS-TRANSFER-FAILED"
+  },
+  "107": {
+    "code": "ERR-MIN-STACK-TIME-NOT-REACHED"
+  },
+  "108": {
+    "code": "ERR-NOT-PART-OF-LOOTING"
+  },
+  "109": {
+    "code": "ERR-NOT-IN-TIME"
+  },
+  "110": {
+    "code": "ERR-ZERO-ELIGIBLE-PIRATES"
+  },
+  "111": {
+    "code": "ERR-TRS-ADD-FAILED"
+  },
   "401": {
     "code": "ERR-NOT-AUTHORIZED",
     "comment": "Unauthorised access"
   },
-
+  "402": {
+    "code": "ERR-MINTING-FAILED"
+  },
   "404": {
     "code": "ERR-NOT-FOUND"
   },
   "405": {
-    "code": "OUT_OF_BOUND"
+    "code": "OUT-OF-BOUND"
   }
 }

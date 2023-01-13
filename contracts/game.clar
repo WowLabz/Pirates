@@ -85,6 +85,14 @@
     (var-get wowlabz)
 )
 
+(define-read-only (get-minting-stx-amount) 
+    (var-get minting-stx-amount)
+)
+
+(define-read-only (get-minting-trs-amount) 
+    (var-get minting-trs-amount)
+)
+
 (define-public (update-wowlabz (new-wowlabz principal)) 
     (begin 
         (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
@@ -92,8 +100,6 @@
         (ok true)
     )
 )
-
-
 
 ;; INCREMENT DAY ONCE LOOTING IS COMPLETED AFTER LOOTING
 (define-public (inc-day) 

@@ -12,7 +12,7 @@ Clarinet.test({
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const wallet_1 = accounts.get("wallet_1")!;
     for (let turn = 1; turn < 1000; turn++) {
-      let max = Math.floor(Math.random() * 10000);
+      let max = Math.floor(Math.random() * 10000) + 1;
       let ms = Date.now();
       let block = chain.mineBlock([
         Tx.contractCall(
